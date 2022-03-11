@@ -19,12 +19,12 @@ import {
 export default function Home(props: any) {
   return (
     <Container>
+      teste
       <Head>
         <title>Next LP</title>
       </Head>
       <Header />
       <Banner banner={props.dataBanner[0]} links={props.dataLinks[0]} />
-
       <main>
         <MyServices services={props.dataServices} />
 
@@ -42,7 +42,6 @@ export default function Home(props: any) {
           <ContactForm />
         </div>
       </main>
-
       <Footer />
     </Container>
   );
