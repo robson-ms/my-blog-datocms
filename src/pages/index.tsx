@@ -7,7 +7,7 @@ import Header from "../components/Header";
 import AboutMe from "../components/AboutMe";
 import MyServices from "../components/MyServices";
 import { request } from "../../lib/dato-cms-doc";
-
+import { useQuerySubscription } from "react-datocms";
 import { Container } from "../styles/pages/home";
 import {
   getAboutMe,
@@ -18,13 +18,14 @@ import {
 } from "../../lib/dato-cms";
 import { GraphQLClient } from "graphql-request";
 
-export default function Home({ initialData }: any) {
-  console.log(initialData.allPosts);
+export default function Home({ posts }: any) {
+  const { data, error, status } = useQuerySubscription(posts);
+  console.log(data);
   return (
     <Container>
       teste
       <div>
-        {initialData.allPosts.map((post: any) => (
+        {data.allPosts.map((post: any) => (
           <div key={post.id}>
             <PostCard post={post} />
           </div>
@@ -58,14 +59,6 @@ export default function Home({ initialData }: any) {
 }
 
 export async function getStaticProps() {
-  const API_TOKEN = process.env.DATOCMS_READ_ONLY_API_TOKEN;
-
-  const datoCms = new GraphQLClient("https://graphql.datocms.com/", {
-    headers: {
-      authorization: `Bearer ${API_TOKEN}`,
-    },
-  });
-
   const HOMEPAGE_QUERY = `{
       allPosts {
         id
@@ -83,9 +76,11 @@ export async function getStaticProps() {
 
   return {
     props: {
-      ...graphqlRequest,
-      initialData: await request(graphqlRequest),
-      token: process.env.DATOCMS_READ_ONLY_API_TOKEN,
+      posts: {
+        ...graphqlRequest,
+        initialData: await request(graphqlRequest),
+        token: process.env.DATOCMS_READ_ONLY_API_TOKEN,
+      },
     },
   };
 }
