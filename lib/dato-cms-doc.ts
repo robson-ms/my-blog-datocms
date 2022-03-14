@@ -8,7 +8,9 @@ export function request({ query, preview }: any) {
 
   const client = new GraphQLClient(endpoint, {
     headers: {
-      authorization: `Bearer ${API_TOKEN}`,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${API_TOKEN}`,
     },
   });
   return client.request(query);
