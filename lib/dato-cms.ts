@@ -16,12 +16,12 @@ async function fetchCmsAPI(query: string, { variables }: any = {}) {
     }),
   });
 
-  // const json = await res.json()
-  // if (json.errors) {
-  //   throw new Error('Failed to fetch API')
-  // }
+  const json = await res.json();
+  if (json.errors) {
+    throw new Error("Failed to fetch API");
+  }
 
-  return res;
+  return json.data;
 }
 
 export async function getAllPosts() {
@@ -39,7 +39,7 @@ export async function getAllPosts() {
   }
   `);
 
-  return data;
+  return data.allPosts;
 }
 
 export async function getBanner() {
@@ -56,7 +56,7 @@ export async function getBanner() {
   }
   `);
 
-  return data;
+  return data.allBanners;
 }
 
 export async function getAboutMe() {
@@ -73,7 +73,7 @@ export async function getAboutMe() {
     }
   `);
 
-  return data;
+  return data.allAboutmes;
 }
 
 export async function getServices() {
@@ -90,7 +90,7 @@ export async function getServices() {
     }
   `);
 
-  return data;
+  return data.allServices;
 }
 
 export async function getLinks() {
@@ -103,7 +103,7 @@ export async function getLinks() {
     }
   `);
 
-  return data;
+  return data.allLinkExternos;
 }
 
 export default { getAllPosts, getBanner, getAboutMe, getServices, getLinks };
