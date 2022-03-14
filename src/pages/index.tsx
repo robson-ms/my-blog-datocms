@@ -1,3 +1,4 @@
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Banner from "../components/Banner";
 import PostCard from "../components/PostCard";
@@ -6,8 +7,7 @@ import ContactForm from "../components/Form";
 import Header from "../components/Header";
 import AboutMe from "../components/AboutMe";
 import MyServices from "../components/MyServices";
-import { request } from "../../lib/dato-cms-doc";
-import { useQuerySubscription } from "react-datocms";
+
 import { Container } from "../styles/pages/home";
 import {
   getAboutMe,
@@ -16,22 +16,12 @@ import {
   getLinks,
   getServices,
 } from "../../lib/dato-cms";
-import { GraphQLClient } from "graphql-request";
 
-export default function Home({ posts }: any) {
-  const { data, error, status } = useQuerySubscription(posts);
-  console.log(data);
+export default function Home(props: any) {
   return (
     <Container>
       teste
-      <div>
-        {data.allPosts.map((post: any) => (
-          <div key={post.id}>
-            <PostCard post={post} />
-          </div>
-        ))}
-      </div>
-      {/*<Head>
+      <Head>
         <title>Next LP</title>
       </Head>
       <Header />
@@ -53,53 +43,25 @@ export default function Home({ posts }: any) {
           <ContactForm />
         </div>
       </main>
-      <Footer /> */}
+      <Footer />
     </Container>
   );
 }
 
-export async function getStaticProps() {
-  const HOMEPAGE_QUERY = `{
-      allPosts {
-        id
-        title
-        content
-        image {
-          url
-        }
-        visible
-      }
-    }`;
-  const graphqlRequest = {
-    query: HOMEPAGE_QUERY,
-  };
+export const getServerSideProps: GetServerSideProps = async () => {
+  const posts = await getAllPosts();
+  const dataBanner = await getBanner();
+  const dataAboutMe = await getAboutMe();
+  const dataServices = await getServices();
+  const dataLinks = await getLinks();
 
   return {
     props: {
-      posts: {
-        ...graphqlRequest,
-        initialData: await request(graphqlRequest),
-        token: process.env.DATOCMS_READ_ONLY_API_TOKEN,
-      },
+      posts,
+      dataBanner,
+      dataAboutMe,
+      dataServices,
+      dataLinks,
     },
   };
-}
-
-// export const getStaticProps = async () => {
-//   const posts = await getAllPosts();
-//   const dataBanner = await getBanner();
-//   const dataAboutMe = await getAboutMe();
-//   const dataServices = await getServices();
-//   const dataLinks = await getLinks();
-
-//   return {
-//     props: {
-//       posts,
-//       dataBanner,
-//       dataAboutMe,
-//       dataServices,
-//       dataLinks,
-//     },
-//     revalidate: 1000 * 60 * 1, // 1 minut
-//   };
-// };
+};
