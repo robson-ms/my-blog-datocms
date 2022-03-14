@@ -1,4 +1,4 @@
-import { GetServerSideProps } from "next";
+import { GetStaticProps } from "next";
 import Head from "next/head";
 import Banner from "../components/Banner";
 import PostCard from "../components/PostCard";
@@ -48,7 +48,7 @@ export default function Home(props: any) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const posts = await getAllPosts();
   const dataBanner = await getBanner();
   const dataAboutMe = await getAboutMe();
@@ -63,5 +63,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
       dataServices,
       dataLinks,
     },
+    revalidate: 1000 * 60 * 1, // 1 minut
   };
 };
