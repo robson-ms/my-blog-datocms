@@ -1,27 +1,27 @@
-import Image from 'next'
+import Image from "next";
 
-const API_URL = 'https://graphql.datocms.com/'
-const API_TOKEN = process.env.DATOCMS_READ_ONLY_API_TOKEN
+const API_URL = "https://graphql.datocms.com/";
+const API_TOKEN = process.env.DATOCMS_READ_ONLY_API_TOKEN;
 
 async function fetchCmsAPI(query: string, { variables }: any = {}) {
   const res = await fetch(API_URL, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${API_TOKEN}`
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${API_TOKEN}`,
     },
     body: JSON.stringify({
       query,
-      variables
-    })
-  })
+      variables,
+    }),
+  });
 
-  const json = await res.json()
-  if (json.errors) {
-    throw new Error('Failed to fetch API')
-  }
+  // const json = await res.json()
+  // if (json.errors) {
+  //   throw new Error('Failed to fetch API')
+  // }
 
-  return json.data
+  return res;
 }
 
 export async function getAllPosts() {
@@ -37,9 +37,9 @@ export async function getAllPosts() {
       visible
     }
   }
-  `)
+  `);
 
-  return data.allPosts
+  return data;
 }
 
 export async function getBanner() {
@@ -54,9 +54,9 @@ export async function getBanner() {
       }
     }
   }
-  `)
+  `);
 
-  return data.allBanners
+  return data;
 }
 
 export async function getAboutMe() {
@@ -71,9 +71,9 @@ export async function getAboutMe() {
       }
     }
     }
-  `)
+  `);
 
-  return data.allAboutmes
+  return data;
 }
 
 export async function getServices() {
@@ -88,9 +88,9 @@ export async function getServices() {
         }
       }
     }
-  `)
+  `);
 
-  return data.allServices
+  return data;
 }
 
 export async function getLinks() {
@@ -101,9 +101,9 @@ export async function getLinks() {
         linkWhatsapp
       }
     }
-  `)
+  `);
 
-  return data.allLinkExternos
+  return data;
 }
 
-export default { getAllPosts, getBanner, getAboutMe, getServices, getLinks }
+export default { getAllPosts, getBanner, getAboutMe, getServices, getLinks };

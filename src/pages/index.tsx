@@ -25,14 +25,14 @@ export default function Home(props: any) {
         <title>Next LP</title>
       </Head>
       <Header />
-      <Banner banner={props.dataBanner[0]} links={props.dataLinks[0]} />
+      {/* <Banner banner={props.dataBanner[0]} links={props.dataLinks[0]} /> */}
       <main>
-        <MyServices services={props.dataServices} />
+        {/* <MyServices services={props.dataServices} />
 
-        <AboutMe dataAboutMe={props.dataAboutMe[0]} />
+        <AboutMe dataAboutMe={props.dataAboutMe[0]} /> */}
 
         <div className="posts main--center">
-          {props.posts.map((post: any) => (
+          {props.posts.allPosts.map((post: any) => (
             <div key={post.id}>
               <PostCard post={post} />
             </div>
@@ -50,6 +50,9 @@ export default function Home(props: any) {
 
 export const getStaticProps: GetStaticProps = async () => {
   const posts = await getAllPosts();
+  const json = await posts.json();
+  console.log(json.data);
+
   const dataBanner = await getBanner();
   const dataAboutMe = await getAboutMe();
   const dataServices = await getServices();
@@ -57,11 +60,11 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: {
-      posts,
-      dataBanner,
-      dataAboutMe,
-      dataServices,
-      dataLinks,
+      posts: json.data,
+      // dataBanner,
+      // dataAboutMe,
+      // dataServices,
+      // dataLinks,
     },
     revalidate: 1000 * 60 * 1, // 1 minut
   };
