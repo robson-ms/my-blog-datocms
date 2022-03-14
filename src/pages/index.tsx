@@ -18,13 +18,13 @@ import {
 } from "../../lib/dato-cms";
 import { GraphQLClient } from "graphql-request";
 
-export default function Home(props: any) {
-  console.log(props);
+export default function Home({ initialData }: any) {
+  console.log(initialData.allPosts);
   return (
     <Container>
       teste
       <div>
-        {props.posts.map((post: any) => (
+        {initialData.allPosts.map((post: any) => (
           <div key={post.id}>
             <PostCard post={post} />
           </div>
@@ -66,8 +66,7 @@ export async function getStaticProps() {
     },
   });
 
-  const { allPosts } = await datoCms.request(
-    `{
+  const HOMEPAGE_QUERY = `{
       allPosts {
         id
         title
@@ -77,13 +76,17 @@ export async function getStaticProps() {
         }
         visible
       }
-    }`
-  );
-
-  console.log(allPosts);
+    }`;
+  const graphqlRequest = {
+    query: HOMEPAGE_QUERY,
+  };
 
   return {
-    props: { posts: allPosts },
+    props: {
+      ...graphqlRequest,
+      initialData: await request(graphqlRequest),
+      token: process.env.DATOCMS_READ_ONLY_API_TOKEN,
+    },
   };
 }
 
