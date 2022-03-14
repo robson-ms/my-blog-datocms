@@ -23,11 +23,11 @@ export default function Home(props: any) {
         <title>Next LP</title>
       </Head>
       <Header />
-      <Banner banner={props.dataBanner[0]} links={props.dataLinks[0]} />
+      {/* <Banner banner={props.dataBanner[0]} links={props.dataLinks[0]} /> */}
       <main>
-        <MyServices services={props.dataServices} />
+        {/* <MyServices services={props.dataServices} />
 
-        <AboutMe dataAboutMe={props.dataAboutMe[0]} />
+        <AboutMe dataAboutMe={props.dataAboutMe[0]} /> */}
 
         <div className="posts main--center">
           {props.posts.map((post: any) => (
@@ -47,19 +47,46 @@ export default function Home(props: any) {
 }
 
 export const getStaticProps = async () => {
-  const posts = await getAllPosts();
-  const dataBanner = await getBanner();
-  const dataAboutMe = await getAboutMe();
-  const dataServices = await getServices();
-  const dataLinks = await getLinks();
+  const API_URL = "https://graphql.datocms.com/";
+  const API_TOKEN = process.env.DATOCMS_READ_ONLY_API_TOKEN;
+
+  async function fetchCmsAPI(query: string, { variables }: any = {}) {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${API_TOKEN}`,
+      },
+      body: JSON.stringify({
+        query,
+        variables,
+      }),
+    });
+
+    const json = await res.json();
+    if (json.errors) {
+      throw new Error("Failed to fetch API");
+    }
+
+    return json.data;
+  }
+  const data = await fetchCmsAPI(`
+  {
+    allPosts {
+      id
+      title
+      content
+      image {
+        url
+      }
+      visible
+    }
+  }
+  `);
 
   return {
     props: {
-      posts: JSON.parse(JSON.stringify(posts)),
-      dataBanner: JSON.parse(JSON.stringify(dataBanner)),
-      dataAboutMe: JSON.parse(JSON.stringify(dataAboutMe)),
-      dataServices: JSON.parse(JSON.stringify(dataServices)),
-      dataLinks: JSON.parse(JSON.stringify(dataLinks)),
+      posts: data.allPosts,
     },
     revalidate: 1000 * 60 * 1, // 1 minut
   };
