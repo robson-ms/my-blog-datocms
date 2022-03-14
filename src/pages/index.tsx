@@ -8,13 +8,8 @@ import AboutMe from "../components/AboutMe";
 import MyServices from "../components/MyServices";
 
 import { Container } from "../styles/pages/home";
-import {
-  getAboutMe,
-  getAllPosts,
-  getBanner,
-  getLinks,
-  getServices,
-} from "../../lib/dato-cms";
+
+import { GetStaticProps } from "next";
 
 export default function Home(props: any) {
   return (
@@ -30,7 +25,7 @@ export default function Home(props: any) {
         <AboutMe dataAboutMe={props.dataAboutMe[0]} />
 
         <div className="posts main--center">
-          {props.posts.map((post: any) => (
+          {props.dataPosts.map((post: any) => (
             <div key={post.id}>
               <PostCard post={post} />
             </div>
@@ -46,20 +41,100 @@ export default function Home(props: any) {
   );
 }
 
-export const getStaticProps = async () => {
-  const posts = await getAllPosts();
-  const dataBanner = await getBanner();
-  const dataAboutMe = await getAboutMe();
-  const dataServices = await getServices();
-  const dataLinks = await getLinks();
+export const getStaticProps: GetStaticProps = async () => {
+  const API_URL = "https://graphql.datocms.com/";
+  const API_TOKEN = process.env.DATOCMS_READ_ONLY_API_TOKEN;
+
+  async function fetchCmsAPI(query: string, { variables }: any = {}) {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${API_TOKEN}`,
+      },
+      body: JSON.stringify({
+        query,
+        variables,
+      }),
+    });
+
+    const json = await res.json();
+    if (json.errors) {
+      throw new Error("Failed to fetch API");
+    }
+
+    return json.data;
+  }
+
+  const dataPosts = await fetchCmsAPI(`
+    {
+      allPosts {
+        id
+        title
+        content
+        image {
+          url
+        }
+        visible
+      }
+    }
+    `);
+
+  const dataBanner = await fetchCmsAPI(`
+    {
+      allBanners {
+        id
+        content
+        title
+        image {
+          url
+        }
+      }
+    }
+    `);
+
+  const dataAboutMe = await fetchCmsAPI(`
+    {
+      allAboutmes {
+        id
+        title
+        content
+        image {
+          url
+        }
+      }
+      }
+    `);
+
+  const dataServices = await fetchCmsAPI(`
+      {
+        allServices {
+          id
+          title
+          content
+          image {
+            url
+          }
+        }
+      }
+    `);
+
+  const dataLinks = await fetchCmsAPI(`
+      {
+        allLinkExternos {
+          linkInstagran
+          linkWhatsapp
+        }
+      }
+    `);
 
   return {
     props: {
-      posts,
-      dataBanner,
-      dataAboutMe,
-      dataServices,
-      dataLinks,
+      dataPosts: dataPosts.allPosts,
+      dataBanner: dataBanner.allBanners,
+      dataAboutMe: dataAboutMe.allAboutmes,
+      dataServices: dataServices.allServices,
+      dataLinks: dataLinks.allLinkExternos,
     },
     revalidate: 1000 * 60 * 1, // 1 minut
   };
