@@ -1,26 +1,25 @@
-import { useSession, signOut } from 'next-auth/react'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import Button from '../Button'
-import { Container } from './styles'
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import Button from "../Button";
+import { Container } from "./styles";
 
 const Header: React.FC = () => {
-  const [background, setBackground] = useState(false)
+  const [background, setBackground] = useState(false);
 
   useEffect(() => {
     const scrollListiner = () => {
       if (window.scrollY > 20) {
-        setBackground(true)
+        setBackground(true);
       } else {
-        setBackground(false)
+        setBackground(false);
       }
-    }
+    };
 
-    window.addEventListener('scroll', scrollListiner)
+    window.addEventListener("scroll", scrollListiner);
     return () => {
-      window.removeEventListener('scroll', scrollListiner)
-    }
-  }, [])
+      window.removeEventListener("scroll", scrollListiner);
+    };
+  }, []);
 
   return (
     <Container background={background}>
@@ -40,7 +39,7 @@ const Header: React.FC = () => {
         </div>
       </div>
     </Container>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
