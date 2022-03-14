@@ -6,6 +6,7 @@ import ContactForm from "../components/Form";
 import Header from "../components/Header";
 import AboutMe from "../components/AboutMe";
 import MyServices from "../components/MyServices";
+import { request } from "../../lib/dato-cms-doc";
 
 import { Container } from "../styles/pages/home";
 import {
@@ -17,17 +18,26 @@ import {
 } from "../../lib/dato-cms";
 
 export default function Home(props: any) {
+  console.log(props);
   return (
     <Container>
-      <Head>
+      teste
+      <div>
+        {props.data.allPosts.map((post: any) => (
+          <div key={post.id}>
+            <PostCard post={post} />
+          </div>
+        ))}
+      </div>
+      {/*<Head>
         <title>Next LP</title>
       </Head>
       <Header />
-      {/* <Banner banner={props.dataBanner[0]} links={props.dataLinks[0]} /> */}
+      <Banner banner={props.dataBanner[0]} links={props.dataLinks[0]} />
       <main>
-        {/* <MyServices services={props.dataServices} />
+        <MyServices services={props.dataServices} />
 
-        <AboutMe dataAboutMe={props.dataAboutMe[0]} /> */}
+        <AboutMe dataAboutMe={props.dataAboutMe[0]} />
 
         <div className="posts main--center">
           {props.posts.map((post: any) => (
@@ -41,37 +51,13 @@ export default function Home(props: any) {
           <ContactForm />
         </div>
       </main>
-      <Footer />
+      <Footer /> */}
     </Container>
   );
 }
 
-export const getStaticProps = async () => {
-  const API_URL = "https://graphql.datocms.com/";
-  const API_TOKEN = process.env.DATOCMS_READ_ONLY_API_TOKEN;
-
-  async function fetchCmsAPI(query: string, { variables }: any = {}) {
-    const res = await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${API_TOKEN}`,
-      },
-      body: JSON.stringify({
-        query,
-        variables,
-      }),
-    });
-
-    const json = await res.json();
-    if (json.errors) {
-      throw new Error("Failed to fetch API");
-    }
-
-    return json.data;
-  }
-  const data = await fetchCmsAPI(`
-  {
+export async function getStaticProps() {
+  const postsAll = `{
     allPosts {
       id
       title
@@ -81,13 +67,31 @@ export const getStaticProps = async () => {
       }
       visible
     }
-  }
-  `);
+  }`;
 
+  const data = await request({
+    query: postsAll,
+  });
   return {
-    props: {
-      posts: data.allPosts,
-    },
-    revalidate: 1000 * 60 * 1, // 1 minut
+    props: { data },
   };
-};
+}
+
+// export const getStaticProps = async () => {
+//   const posts = await getAllPosts();
+//   const dataBanner = await getBanner();
+//   const dataAboutMe = await getAboutMe();
+//   const dataServices = await getServices();
+//   const dataLinks = await getLinks();
+
+//   return {
+//     props: {
+//       posts,
+//       dataBanner,
+//       dataAboutMe,
+//       dataServices,
+//       dataLinks,
+//     },
+//     revalidate: 1000 * 60 * 1, // 1 minut
+//   };
+// };
