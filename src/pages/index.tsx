@@ -16,6 +16,7 @@ import {
   getLinks,
   getServices,
 } from "../../lib/dato-cms";
+import { GraphQLClient } from "graphql-request";
 
 export default function Home(props: any) {
   console.log(props);
@@ -23,7 +24,7 @@ export default function Home(props: any) {
     <Container>
       teste
       <div>
-        {props.data.allPosts.map((post: any) => (
+        {props.posts.map((post: any) => (
           <div key={post.id}>
             <PostCard post={post} />
           </div>
@@ -57,23 +58,32 @@ export default function Home(props: any) {
 }
 
 export async function getStaticProps() {
-  const postsAll = `{
-    allPosts {
-      id
-      title
-      content
-      image {
-        url
-      }
-      visible
-    }
-  }`;
+  const API_TOKEN = process.env.DATOCMS_READ_ONLY_API_TOKEN;
 
-  const data = await request({
-    query: postsAll,
+  const datoCms = new GraphQLClient("https://graphql.datocms.com/", {
+    headers: {
+      authorization: `Bearer ${API_TOKEN}`,
+    },
   });
+
+  const { allPosts } = await datoCms.request(
+    `{
+      allPosts {
+        id
+        title
+        content
+        image {
+          url
+        }
+        visible
+      }
+    }`
+  );
+
+  console.log(allPosts);
+
   return {
-    props: { data },
+    props: { posts: allPosts },
   };
 }
 
