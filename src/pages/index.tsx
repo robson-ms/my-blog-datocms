@@ -19,7 +19,6 @@ import {
 export default function Home(props: any) {
   return (
     <Container>
-      teste
       <Head>
         <title>Next LP</title>
       </Head>
