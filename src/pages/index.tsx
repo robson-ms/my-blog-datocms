@@ -17,15 +17,16 @@ import {
 } from "../lib/dato-cms";
 
 export default function Home(props: any) {
+  console.log(props);
   return (
     <Container>
       <Head>
         <title>Next LP</title>
       </Head>
       <Header />
-      <Banner banner={props.dataBanner[0]} links={props.dataLinks[0]} />
+      {/* <Banner banner={props.dataBanner[0]} links={props.dataLinks[0]} /> */}
       <main>
-        <MyServices services={props.dataServices} />
+        {/* <MyServices services={props.dataServices} />
 
         <AboutMe dataAboutMe={props.dataAboutMe[0]} />
 
@@ -39,7 +40,7 @@ export default function Home(props: any) {
 
         <div className="main--center">
           <ContactForm />
-        </div>
+        </div> */}
       </main>
       <Footer />
     </Container>
@@ -48,18 +49,19 @@ export default function Home(props: any) {
 
 export const getStaticProps = async () => {
   const posts = await getAllPosts();
-  const dataBanner = await getBanner();
-  const dataAboutMe = await getAboutMe();
-  const dataServices = await getServices();
-  const dataLinks = await getLinks();
+  const allProfiles = JSON.stringify(posts);
+  // const dataBanner = await getBanner();
+  // const dataAboutMe = await getAboutMe();
+  // const dataServices = await getServices();
+  // const dataLinks = await getLinks();
 
   return {
     props: {
-      posts,
-      dataBanner,
-      dataAboutMe,
-      dataServices,
-      dataLinks,
+      posts: allProfiles,
+      // dataBanner,
+      // dataAboutMe,
+      // dataServices,
+      // dataLinks,
     },
     revalidate: 1000 * 60 * 1, // 1 minut
   };
