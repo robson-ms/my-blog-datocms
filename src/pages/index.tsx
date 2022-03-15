@@ -32,6 +32,6 @@ export const getStaticProps = async () => {
     props: {
       posts: allProfiles,
     },
-    revalidate: 1000 * 60 * 1, // 1 minut
+    revalidate: 1000 * 60 * 1, // 1 minuto
   };
 };
