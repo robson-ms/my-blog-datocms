@@ -27,11 +27,19 @@ export default function Home(props: any) {
 export const getStaticProps = async () => {
   const posts = await getAllPosts();
 
-  return {
-    props:
-      {
+  if (!!posts) {
+    return {
+      props: {
         posts,
-      } || {},
-    revalidate: 1000 * 60 * 1, // 1 minuto
-  };
+      },
+      revalidate: 1000 * 60 * 1, // 1 minuto
+    };
+  } else {
+    return {
+      props: {
+        posts: [],
+      },
+      revalidate: 1000 * 60 * 1, // 1 minuto
+    };
+  }
 };
