@@ -24,14 +24,14 @@ export default function Home({ props }: any) {
         <title>Next LP</title>
       </Head>
       <Header />
-      <Banner banner={props.dataBanner[0]} links={props.dataLinks[0]} />
+      <Banner banner={props?.dataBanner[0]} links={props?.dataLinks[0]} />
       <main>
-        <MyServices services={props.dataServices} />
+        <MyServices services={props?.dataServices} />
 
-        <AboutMe dataAboutMe={props.dataAboutMe[0]} />
+        <AboutMe dataAboutMe={props?.dataAboutMe[0]} />
 
         <div className="posts main--center">
-          {props.posts.map((post: any) => (
+          {props?.posts.map((post: any) => (
             <div key={post.id}>
               <PostCard post={post} />
             </div>
