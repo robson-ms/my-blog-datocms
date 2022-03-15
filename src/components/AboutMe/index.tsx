@@ -1,23 +1,12 @@
 import React from "react";
-
+import { Aboutme } from "../../lib/types";
 import { Container, Content } from "./styles";
 
-export interface IImage {
-  url: string;
-}
+type AboutmeType = {
+  dataAboutMe: Aboutme;
+};
 
-export interface IDataAboutMe {
-  id: string;
-  title: string;
-  content: string;
-  image: IImage;
-}
-
-export interface IAboutMe {
-  dataAboutMe: IDataAboutMe;
-}
-
-const AboutMe: React.FC<IAboutMe> = ({ dataAboutMe }) => {
+const AboutMe: React.FC<AboutmeType> = ({ dataAboutMe }) => {
   return (
     <Container>
       {!!dataAboutMe && (

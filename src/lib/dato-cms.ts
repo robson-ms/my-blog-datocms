@@ -17,16 +17,39 @@ async function fetchCmsAPI(query: string, { variables }: any = {}) {
   });
 
   const json = await res.json();
+
   if (json.errors) {
     throw new Error("Failed to fetch API");
   }
 
-  return json.data;
+  return json;
 }
 
-export async function getAllPosts() {
+export async function getAllData() {
   const data = await fetchCmsAPI(`
-  {
+  query MyQuery {
+    banner {
+      title
+      content
+      image {
+        url
+      }
+    }
+    aboutme {
+      title
+      content
+      image {
+        url
+      }
+    }
+    allServices {
+      id
+      title
+      content
+      image {
+        url
+      }
+    }
     allPosts {
       id
       title
@@ -34,76 +57,15 @@ export async function getAllPosts() {
       image {
         url
       }
-      visible
+    }
+    linkExterno {
+      linkInstagran
+      linkWhatsapp
     }
   }
   `);
 
-  return data.allPosts;
+  return data;
 }
 
-export async function getBanner() {
-  const data = await fetchCmsAPI(`
-  {
-    allBanners {
-      id
-      content
-      title
-      image {
-        url
-      }
-    }
-  }
-  `);
-
-  return data.allBanners;
-}
-
-export async function getAboutMe() {
-  const data = await fetchCmsAPI(`
-  {
-    allAboutmes {
-      id
-      title
-      content
-      image {
-        url
-      }
-    }
-    }
-  `);
-
-  return data.allAboutmes;
-}
-
-export async function getServices() {
-  const data = await fetchCmsAPI(`
-    {
-      allServices {
-        id
-        title
-        content
-        image {
-          url
-        }
-      }
-    }
-  `);
-
-  return data.allServices;
-}
-
-export async function getLinks() {
-  const data = await fetchCmsAPI(`
-    {
-      allLinkExternos {
-        linkInstagran
-        linkWhatsapp
-      }
-    }
-  `);
-
-  return data.allLinkExternos;
-}
-
-export default { getAllPosts, getBanner, getAboutMe, getServices, getLinks };
+export default { getAllData };

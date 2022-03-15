@@ -6,32 +6,25 @@ import ContactForm from "../components/Form";
 import Header from "../components/Header";
 import AboutMe from "../components/AboutMe";
 import MyServices from "../components/MyServices";
-
+import { MyQueryTypes } from "../lib/types";
 import { Container } from "../styles/pages/home";
-import {
-  getAboutMe,
-  getAllPosts,
-  getBanner,
-  getLinks,
-  getServices,
-} from "../lib/dato-cms";
+import { getAllData } from "../lib/dato-cms";
 
-export default function Home({ props }: any) {
-  console.log(props);
+export default function Home({ data }: MyQueryTypes) {
   return (
     <Container>
       <Head>
         <title>Next LP</title>
       </Head>
       <Header />
-      <Banner banner={props?.dataBanner[0]} links={props?.dataLinks[0]} />
+      <Banner banner={data.banner} links={data.linkExterno} />
       <main>
-        <MyServices services={props?.dataServices} />
+        <MyServices services={data.allServices} />
 
-        <AboutMe dataAboutMe={props?.dataAboutMe[0]} />
+        <AboutMe dataAboutMe={data.aboutme} />
 
         <div className="posts main--center">
-          {props?.posts.map((post: any) => (
+          {data.allPosts.map((post: any) => (
             <div key={post.id}>
               <PostCard post={post} />
             </div>
@@ -48,27 +41,12 @@ export default function Home({ props }: any) {
 }
 
 export const getStaticProps = async () => {
-  const posts = await getAllPosts();
-  const dataBanner = await getBanner();
-  const dataAboutMe = await getAboutMe();
-  const dataServices = await getServices();
-  const dataLinks = await getLinks();
+  const res = await getAllData();
 
-  const data = [posts, dataBanner, dataAboutMe, dataServices, dataLinks];
-
-  if (!!posts) {
-    return {
-      props: {
-        data,
-      },
-      revalidate: 1000 * 60 * 1, // 1 minuto
-    };
-  } else {
-    return {
-      props: {
-        data: [],
-      },
-      revalidate: 1000 * 60 * 1, // 1 minuto
-    };
-  }
+  return {
+    props: {
+      data: res.data,
+    },
+    revalidate: 1000 * 60 * 1, // 1 minuto
+  };
 };
