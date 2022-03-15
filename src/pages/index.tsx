@@ -26,7 +26,7 @@ export default function Home(props: any) {
 
 export const getStaticProps = async () => {
   const posts = await getAllPosts();
-  const allProfiles = JSON.stringify(posts);
+  const allProfiles = JSON.parse(JSON.stringify(posts));
 
   return {
     props: {
