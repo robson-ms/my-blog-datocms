@@ -14,12 +14,11 @@ import {
   getBanner,
   getLinks,
   getServices,
-} from "../../lib/dato-cms";
+} from "../lib/dato-cms";
 
 export default function Home(props: any) {
   return (
     <Container>
-      teste
       <Head>
         <title>Next LP</title>
       </Head>
