@@ -28,9 +28,10 @@ export const getStaticProps = async () => {
   const posts = await getAllPosts();
 
   return {
-    props: {
-      posts: JSON.parse(JSON.stringify(posts)),
-    },
+    props:
+      {
+        posts,
+      } || {},
     revalidate: 1000 * 60 * 1, // 1 minuto
   };
 };
