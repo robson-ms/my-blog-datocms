@@ -20,7 +20,7 @@ type ServiceType = {
 const MyServices: React.FC<ServiceType> = ({ services }) => {
   return (
     <Container>
-      {Object.keys(services).length > 0 && (
+      {!!services && (
         <Content>
           <h1>Meus serviços</h1>
           <div className="grid">

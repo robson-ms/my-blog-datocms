@@ -24,7 +24,7 @@ type BannerType = {
 const Banner: React.FC<BannerType> = ({ banner, links }) => {
   return (
     <>
-      {Object.keys(banner).length > 0 && (
+      {!!banner && (
         <Container>
           <div id="/" className="banner--container">
             <div className="banner--descriptions--content">
@@ -32,7 +32,7 @@ const Banner: React.FC<BannerType> = ({ banner, links }) => {
                 <h1>{banner.title}</h1>
                 <p>{banner.content}</p>
 
-                {Object.keys(links).length > 0 && (
+                {!!links && (
                   <Buttons>
                     <a
                       href={links.linkWhatsapp}

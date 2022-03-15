@@ -20,7 +20,7 @@ export interface IAboutMe {
 const AboutMe: React.FC<IAboutMe> = ({ dataAboutMe }) => {
   return (
     <Container>
-      {Object.keys(dataAboutMe).length > 0 && (
+      {!!dataAboutMe && (
         <Content>
           <div className="descriptions">
             <h1>{dataAboutMe.title}</h1>
