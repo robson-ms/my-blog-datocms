@@ -26,11 +26,10 @@ export default function Home(props: any) {
 
 export const getStaticProps = async () => {
   const posts = await getAllPosts();
-  const allProfiles = JSON.parse(JSON.stringify(posts));
 
   return {
     props: {
-      posts: allProfiles,
+      posts: JSON.parse(JSON.stringify(posts)),
     },
     revalidate: 1000 * 60 * 1, // 1 minuto
   };
