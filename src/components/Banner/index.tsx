@@ -1,5 +1,4 @@
 import { Container, Buttons } from "./styles";
-import { getBanner } from "../../../lib/dato-cms";
 
 interface ImageUrl {
   url: string;
