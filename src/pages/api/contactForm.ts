@@ -3,12 +3,12 @@ import sendgridTransport from "nodemailer-sendgrid-transport";
 import { phoneMask } from "../../utils/mask";
 import { NextApiRequest, NextApiResponse } from "next";
 
-const email = process.env.MAILADRESS;
+const email = process.env.NEXT_MAILADRESS;
 
 const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
-      api_key: process.env.SENDGRID_API_KEY,
+      api_key: process.env.NEXT_SENDGRID_API_KEY,
     },
   })
 );
