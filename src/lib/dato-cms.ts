@@ -3,17 +3,12 @@ import Image from "next";
 const API_URL = "https://graphql.datocms.com/";
 const API_TOKEN = process.env.DATOCMS_READ_ONLY_API_TOKEN;
 
-export async function fetchCmsAPI(
-  ctx: any,
-  query: string,
-  { variables }: any = {}
-) {
+export async function fetchCmsAPI(query: string, { variables }: any = {}) {
   const res = await fetch(API_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${API_TOKEN}`,
-      previwe: ctx.preview,
     },
     body: JSON.stringify({
       query,
@@ -31,9 +26,7 @@ export async function fetchCmsAPI(
 }
 
 export async function getAllData(ctx: any) {
-  const data = await fetchCmsAPI(
-    ctx,
-    `
+  const data = await fetchCmsAPI(`
   query MyQuery {
     banner {
       title
@@ -70,8 +63,7 @@ export async function getAllData(ctx: any) {
       linkWhatsapp
     }
   }
-  `
-  );
+  `);
 
   return data;
 }
