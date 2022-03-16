@@ -87,15 +87,21 @@ query MyQuery {
 
   const graphqlRequest = {
     query: myQuery,
+    preview: context.preview,
   };
 
   return {
     props: {
-      subscription: {
-        ...graphqlRequest,
-        initialData: await request(graphqlRequest),
-        token: process.env.DATOCMS_READ_ONLY_API_TOKEN,
-      },
+      subscription: context.preview
+        ? {
+            ...graphqlRequest,
+            initialData: await request(graphqlRequest),
+            token: process.env.NEXT_DATOCMS_API_TOKEN,
+          }
+        : {
+            enabled: false,
+            initialData: await request(graphqlRequest),
+          },
     },
     revalidate: 1000 * 60 * 1, // 1 minuto
   };
