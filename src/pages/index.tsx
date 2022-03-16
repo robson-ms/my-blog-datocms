@@ -8,11 +8,14 @@ import AboutMe from "../components/AboutMe";
 import MyServices from "../components/MyServices";
 import { MyQueryTypes } from "../lib/types";
 import { Container } from "../styles/pages/home";
+
 import { useQuerySubscription } from "react-datocms";
 import { request } from "../lib/datocms";
+import { myQuery } from "../lib/query";
 
 export default function Home({ subscription }: any) {
-  const { data, error, status } = useQuerySubscription(subscription);
+  const { data: dataProps } = useQuerySubscription(subscription);
+  const data: MyQueryTypes = dataProps;
 
   return (
     <Container>
@@ -43,64 +46,19 @@ export default function Home({ subscription }: any) {
   );
 }
 
-export const getStaticProps = async (context: any) => {
-  const myQuery = `
-    query MyQuery {
-      banner {
-        title
-        content
-        image {
-          url
-        }
-      }
-      aboutme {
-        title
-        content
-        image {
-          url
-        }
-      }
-      allServices {
-        id
-        title
-        content
-        image {
-          url
-        }
-      }
-      allPosts {
-        id
-        title
-        content
-        image {
-          url
-        }
-      }
-      linkExterno {
-        linkInstagran
-        linkWhatsapp
-      }
-    }
-    `;
-
+export const getStaticProps = async () => {
   const graphqlRequest = {
     query: myQuery,
-    preview: context.preview,
   };
 
   return {
     props: {
-      subscription: context.preview
-        ? {
-            ...graphqlRequest,
-            initialData: await request(graphqlRequest),
-            token: process.env.NEXT_DATOCMS_API_TOKEN,
-          }
-        : {
-            enabled: false,
-            initialData: await request(graphqlRequest),
-          },
+      subscription: {
+        ...graphqlRequest,
+        initialData: await request(graphqlRequest),
+        token: process.env.NEXT_DATOCMS_API_TOKEN,
+      },
     },
-    revalidate: 1000 * 60 * 1, // 1 minuto
+    revalidate: 60 * 1, // 1 minuto
   };
 };

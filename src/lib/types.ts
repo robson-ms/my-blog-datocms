@@ -33,14 +33,10 @@ export interface LinkExterno {
   linkWhatsapp: string;
 }
 
-export interface RootType {
+export interface MyQueryTypes {
   banner: Banner;
   aboutme: Aboutme;
   allServices: AllService[];
   allPosts: AllPost[];
   linkExterno: LinkExterno;
-}
-
-export interface MyQueryTypes {
-  data: RootType;
 }
