@@ -1,10 +1,8 @@
-import Image from "next";
-
 const API_URL = "https://graphql.datocms.com/";
 const API_TOKEN = process.env.NEXT_DATOCMS_API_TOKEN;
 
-export async function fetchCmsAPI(query: string, { variables }: any = {}) {
-  const res = await fetch(API_URL, {
+async function fetchAPI(query, { variables, preview } = {}) {
+  const res = await fetch(API_URL + (preview ? "/preview" : ""), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -17,16 +15,16 @@ export async function fetchCmsAPI(query: string, { variables }: any = {}) {
   });
 
   const json = await res.json();
-
   if (json.errors) {
+    console.error(json.errors);
     throw new Error("Failed to fetch API");
   }
-
-  return json;
+  return json.data;
 }
 
-export async function getAllData() {
-  const data = await fetchCmsAPI(`
+export async function getAllData(preview) {
+  const data = await fetchAPI(
+    `
   query MyQuery {
     banner {
       title
@@ -63,9 +61,9 @@ export async function getAllData() {
       linkWhatsapp
     }
   }
-  `);
+  `,
+    { preview }
+  );
 
   return data;
 }
-
-export default { getAllData };
