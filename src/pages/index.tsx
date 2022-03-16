@@ -10,9 +10,12 @@ import { MyQueryTypes } from "../lib/types";
 import { Container } from "../styles/pages/home";
 import { getAllData } from "../lib/dato-cms";
 import { fetchCmsAPI } from "../lib/dato-cms";
+import { useQuerySubscription } from "react-datocms";
 import { request } from "../lib/datocms";
 
-export default function Home({ data }: MyQueryTypes) {
+export default function Home({ subscription }: any) {
+  const { data, error, status } = useQuerySubscription(subscription);
+
   return (
     <Container>
       <Head>
@@ -82,14 +85,17 @@ query MyQuery {
 }
 `;
 
-  const data = await request({
+  const graphqlRequest = {
     query: myQuery,
-    preview: context.preview,
-  });
+  };
 
   return {
     props: {
-      data: data,
+      subscription: {
+        ...graphqlRequest,
+        initialData: await request(graphqlRequest),
+        token: process.env.DATOCMS_READ_ONLY_API_TOKEN,
+      },
     },
     revalidate: 1000 * 60 * 1, // 1 minuto
   };
