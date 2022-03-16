@@ -40,8 +40,8 @@ export default function Home({ data }: MyQueryTypes) {
   );
 }
 
-export const getStaticProps = async () => {
-  const res = await getAllData();
+export const getStaticProps = async (ctx: any) => {
+  const res = await getAllData(ctx);
 
   return {
     props: {
