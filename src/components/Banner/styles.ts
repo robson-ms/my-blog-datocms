@@ -3,27 +3,32 @@ import styled from "styled-components";
 export const Container = styled.div`
   display: flex;
   width: 100vw;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   background: #fff;
+  padding-top: 60px;
 
   .banner--container {
-    flex-wrap: initial;
     display: flex;
     width: 100%;
     max-width: 1170px;
     margin: 0 auto;
+    flex-wrap: initial;
     justify-content: space-between;
-    overflow: hidden;
   }
 
-  .banner--descriptions--content {
-    display: flex;
-    padding-top: 250px;
-    padding-left: 20px;
-    padding-bottom: 50px;
+  .image--container {
+    max-width: 500px;
+    order: 2;
+    margin-bottom: -5px;
+
+    img {
+      width: 100%;
+    }
   }
 
   .banner--descriptions {
+    margin-top: 150px;
+    padding: 0 10px;
+
     h1 {
       font-size: max(24px, min(48px, 3vw));
       font-weight: bold;
@@ -31,7 +36,7 @@ export const Container = styled.div`
     }
 
     p {
-      margin-top: 40px;
+      margin-top: 10px;
       max-width: 500px;
       font-size: 16px;
       line-height: 25px;
@@ -40,59 +45,19 @@ export const Container = styled.div`
     }
   }
 
-  .image--container {
-    display: flex;
-    width: 100%;
-    max-width: 460px;
-    margin-top: 80px;
-
-    img {
-      width: 100%;
-      object-fit: cover;
-    }
-  }
-
   @media only screen and (max-width: 780px) {
-    display: flex;
-    width: 100%;
-    height: 95vh;
-    box-shadow: none;
-
     .banner--container {
-      flex-wrap: wrap-reverse;
-      justify-content: center;
-    }
-
-    .banner--descriptions--content {
-      display: flex;
       width: 100%;
-      padding-top: 0;
-      padding-left: 0;
-      padding-bottom: 0;
-
-      .banner--descriptions {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        padding: 10px;
-
-        z-index: 2;
-
-        p {
-          margin-top: 30px;
-          text-align: center;
-          padding: 0 10px;
-        }
-      }
+      display: flex;
+      flex-direction: column;
+      flex-wrap: initial;
+      align-items: center;
     }
 
     .image--container {
-      width: 100%;
-      max-width: 500px;
       position: relative;
-      top: 10px;
+      max-width: 280px;
+      order: 0;
 
       img {
         width: 100%;
@@ -115,44 +80,30 @@ export const Container = styled.div`
         );
       }
     }
+
+    .banner--descriptions {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      p {
+        text-align: center;
+      }
+    }
   }
 
-  @media (width: 540px) and (height: 720px) {
+  //iPhone XR
+  @media (width: 414px) and (height: 896px) {
     .image--container {
-      width: 100%;
       max-width: 380px;
-      position: relative;
-      top: 100px;
-
-      img {
-        width: 100%;
-      }
     }
   }
 
-  @media (width: 360px) and (height: 740px) {
+  //iPhone 12 pro
+  @media (width: 390px) and (height: 844px) {
     .image--container {
-      width: 100%;
-      max-width: 300px;
-      position: relative;
-      top: 10px;
-
-      img {
-        width: 100%;
-      }
-    }
-  }
-
-  @media (width: 375px) and (height: 667px) {
-    .image--container {
-      width: 100%;
-      max-width: 250px;
-      position: relative;
-      top: 10px;
-
-      img {
-        width: 100%;
-      }
+      max-width: 380px;
     }
   }
 `;
