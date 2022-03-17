@@ -41,6 +41,7 @@ const BannerComponent: React.FC<BannerType> = ({ banner, links }) => {
           </div>
         </div>
         <div className="image--container">
+          <div className="bg" />
           <img src={banner.image.url} className="image" alt="image" />
         </div>
       </div>

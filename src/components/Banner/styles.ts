@@ -1,11 +1,13 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
   width: 100vw;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  background: #fff;
 
   .banner--container {
+    flex-wrap: initial;
     display: flex;
     width: 100%;
     max-width: 1170px;
@@ -54,79 +56,106 @@ export const Container = styled.div`
     display: flex;
     width: 100%;
     height: 95vh;
-    position: relative;
     box-shadow: none;
 
     .banner--container {
-      display: block;
-      margin-bottom: 10px;
+      flex-wrap: wrap-reverse;
+      justify-content: center;
     }
 
     .banner--descriptions--content {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
+      display: flex;
       width: 100%;
-      padding-left: 0px;
-      padding-bottom: 0px;
-
-      background: linear-gradient(
-        0deg,
-        rgba(255, 255, 255, 1) 0%,
-        rgba(255, 255, 255, 1) 25%,
-        rgba(255, 255, 255, 0) 50%
-      );
+      padding-top: 0;
+      padding-left: 0;
+      padding-bottom: 0;
 
       .banner--descriptions {
         display: flex;
         flex-direction: column;
+        justify-content: center;
         align-items: center;
-        justify-content: flex-end;
         width: 100%;
         padding: 10px;
+
+        z-index: 2;
+
         p {
           margin-top: 30px;
           text-align: center;
+          padding: 0 10px;
         }
       }
     }
 
     .image--container {
-      display: flex;
       width: 100%;
-      min-width: 100%;
-      margin-top: 80px;
+      max-width: 500px;
+      position: relative;
+      top: 10px;
 
       img {
         width: 100%;
       }
+
+      .bg {
+        position: absolute;
+        display: flex;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        bottom: 0px;
+
+        background: linear-gradient(
+          0deg,
+          rgba(255, 255, 255, 1) 0%,
+          rgba(255, 255, 255, 0) 50%
+        );
+      }
     }
   }
 
-  @media only screen and (max-width: 425px) {
-    .banner--descriptions--content {
-      background: linear-gradient(
-        0deg,
-        rgba(255, 255, 255, 1) 0%,
-        rgba(255, 255, 255, 1) 35%,
-        rgba(255, 255, 255, 0) 70%
-      );
-    }
+  @media (width: 540px) and (height: 720px) {
     .image--container {
-      display: flex;
       width: 100%;
-      min-width: 100%;
-      margin-top: 80px;
-      padding: 10px;
+      max-width: 380px;
+      position: relative;
+      top: 100px;
 
       img {
         width: 100%;
       }
     }
   }
-`
+
+  @media (width: 360px) and (height: 740px) {
+    .image--container {
+      width: 100%;
+      max-width: 300px;
+      position: relative;
+      top: 10px;
+
+      img {
+        width: 100%;
+      }
+    }
+  }
+
+  @media (width: 375px) and (height: 667px) {
+    .image--container {
+      width: 100%;
+      max-width: 250px;
+      position: relative;
+      top: 10px;
+
+      img {
+        width: 100%;
+      }
+    }
+  }
+`;
 
 export const Buttons = styled.div`
   display: flex;
@@ -220,4 +249,4 @@ export const Buttons = styled.div`
       padding: 5px 10px;
     }
   }
-`
+`;
