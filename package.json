@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.5.0",
     "@mui/material": "^5.5.0",
+    "@sendgrid/mail": "^7.6.2",
     "axios": "^0.26.1",
     "formik": "^2.2.9",
     "graphql-request": "^4.1.0",

@@ -7,6 +7,7 @@ import { sendContactSchema } from "../../validations";
 import { sendContactMail } from "../../services/sendEmail";
 
 import { Container, Grid } from "./styles";
+import { toast } from "react-toastify";
 
 type IContact = {
   name: string;
@@ -16,6 +17,12 @@ type IContact = {
 };
 
 const ContactForm: React.FC = () => {
+  function handleSubmitContact(values: any, resetForm: any) {
+    sendContactMail(values);
+
+    toast.success(`Enviado com sucesso`);
+    resetForm();
+  }
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -25,8 +32,7 @@ const ContactForm: React.FC = () => {
     },
     validationSchema: sendContactSchema,
     onSubmit: (values: IContact, { resetForm }) => {
-      sendContactMail(values);
-      resetForm();
+      handleSubmitContact(values, resetForm);
     },
   });
 

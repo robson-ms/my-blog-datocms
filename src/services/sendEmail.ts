@@ -1,5 +1,4 @@
 import axios from "axios";
-import { toast } from "react-toastify";
 
 type IContact = {
   name: string;
@@ -9,10 +8,19 @@ type IContact = {
 };
 
 export const sendContactMail = async (data: IContact) => {
-  try {
-    await axios.post("/api/contactForm", data);
-    toast.success("Enviado com sucesso!");
-  } catch (error) {
-    toast.error("Erro ao enviar!");
+  console.log("ser", data);
+  const response = await fetch("/api/contact", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  console.log("response", response);
+
+  const res = await response.json();
+
+  if (!res.ok) {
+    console.log("erro");
+  } else {
+    console.log("OK");
   }
 };
