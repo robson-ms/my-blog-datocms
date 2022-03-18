@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { phoneMask } from "../../utils/mask";
 import sgMail from "@sendgrid/mail";
 
 const template_id = process.env.NEXT_SENDGRID_TREMPLATE_ID
@@ -29,7 +30,7 @@ export default function handle(req: NextApiRequest, res: NextApiResponse) {
     dynamic_template_data: {
       senderMail: senderMail,
       name: name,
-      phone: phone,
+      phone: phoneMask(phone),
       content: content,
     },
     replyTo: senderMail,
