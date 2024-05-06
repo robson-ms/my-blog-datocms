@@ -1,6 +1,6 @@
 Esse é um projeto de um blog pessoal com baixo custo para quem estiver começando o seu negócio, o único custo que você terá será com o valor do domínio.
 
-Obs: vários commits foram gerados porque eu estava esquecendo de configurar as variáveis de ambiente na Vercel, então se esque de configurar antes de realizar a build. 😅 
+Obs: vários commits foram gerados porque eu estava esquecendo de configurar as variáveis de ambiente na Vercel.
 
 ## Getting Started
 
